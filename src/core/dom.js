@@ -1,27 +1,48 @@
 class Dom {
+    // selector "#app"
     constructor(selector) {
     this.$el = typeof selector === 'string'
         ? document.querySelector(selector)
         : selector;
     }
+
     html(html) {
         if (typeof html === 'string') {
             this.$el.innerHTML = html;
+            // Чтобы можно было вызвать, к примеру, метод clear - вернем this
             return this;
         }
         return this.$el.outerHTML.trim();
     }
+
+    text(text) {
+        if (typeof text === 'string') {
+            this.$el.textContent = text;
+            return this;
+        }
+        if (this.$el.tagName.toLowerCase() ==='input') {
+            return this.$el.valuel.trim();
+        }
+        return this.$el.textContent.trim();
+    }
+
     clear() {
         this.html('');
         return this;
     }
 
+    // Дублирует функционал addEventListener
     on(eventType, callback) {
         this.$el.addEventListener(eventType, callback);
     }
 
+    // Дублирует функционал removeEventListener
     off(eventType, callback) {
         this.$el.removeEventListener(eventType, callback);
+    }
+
+    find(selector) {
+        return $(this.$el.querySelector(selector));
     }
 
     append(node) {
@@ -59,12 +80,39 @@ class Dom {
                 this.$el.style[key] = styles[key];
         });
     }
+
+    id(parse) {
+        if (parse) {
+            const parsed = this.id().split(':');
+            return {
+                row: +parsed[0],
+                col: +parsed[1],
+            };
+        }
+        return this.data.id;
+    }
+
+    focus() {
+        this.$el.focus();
+        return this;
+    }
+
+    addClass(className) {
+        this.$el.classList.add(className);
+        return this;
+    }
+
+    removeClass(className) {
+        this.$el.classList.remove(className);
+        return this;
+    }
 }
 export function $(selector) {
     return new Dom(selector);
 }
 
 $.create = (tagName, classes = '') => {
+    // 5 дивов(селекторов): 1 див .excel и 4 дива внутри .excel
     const el = document.createElement(tagName);
     if (classes) {
         el.classList.add(classes);

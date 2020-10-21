@@ -1,6 +1,7 @@
 import {capitalize} from "@core/utils";
 
 export class DomListener {
+    // $root кор-ой элемент на кот. будем вешать слушатели
     constructor($root, listeners = []) {
         if (!$root) {
             throw new Error('No $root provided for DomListener!');
@@ -8,6 +9,7 @@ export class DomListener {
         this.$root = $root;
         this.listeners = listeners;
     }
+// Добавить событие
     initDOMListeners() {
         this.listeners.forEach((listener) => {
             const method = getMethodName(listener);
@@ -18,10 +20,10 @@ export class DomListener {
                 );
             }
             this[method] = this[method].bind(this);
-            // Тоже самое что и addEventListener
-            this.$root.on(listener, this[method] );
+            this.$root.on(listener, this[method]);
         });
     }
+// Удалить событие
     removeDOMListeners() {
         this.listeners.forEach((listener) => {
             const method = getMethodName(listener);
@@ -29,7 +31,7 @@ export class DomListener {
         });
     }
 }
-// input => onInput
+
 function getMethodName(eventName) {
     return `on${capitalize(eventName)}`;
 }
