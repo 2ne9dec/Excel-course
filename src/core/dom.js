@@ -45,6 +45,7 @@ class Dom {
         return $(this.$el.querySelector(selector));
     }
 
+    // node instance класса Dom
     append(node) {
         if (node instanceof Dom) {
             node = node.$el;

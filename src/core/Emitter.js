@@ -17,6 +17,10 @@ export class Emitter {
     subscribe(event, fn) {
         this.listeners[event] = this.listeners[event] || [];
         this.listeners[event].push(fn);
+
+        // Возвращаем функцию, где можем отписаться от событий
+        // Переопределяем this.listeners
+        // С помощью filter оставляем все слушатели !== fn
         return () => {
             this.listeners[event] =
             this.listeners[event].filter((listener) => listener !== fn);

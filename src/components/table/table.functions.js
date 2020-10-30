@@ -7,13 +7,18 @@ export function shouldResize(event) {
 export function isCell(event) {
     return event.target.dataset.type === 'cell';
 }
-
+// $current - текущая нажатая ячейка, $target - следующая нажатая ячейка
 export function matrix($target, $current) {
+    // Если true - выводим объект с номером строки и колонки {row: 5, col: 3}
+    // Если false - string с номером строки и колонки 5:3
     const target = $target.id(true);
     const current = $current.id(true);
+    // Получаем выделенный диапазон колонок и присваиваем cols
     const cols = range(current.col, target.col);
+    // Получаем выделенный диапазон строк и присваиваем rows
     const rows = range(current.row, target.row);
 
+    // Получаем массив координат выделенного диапазона ячеек в виде [0:0, 0:1]
     return cols.reduce((acc, col) => {
         rows.forEach((row) => acc.push(`${row}:${col}`));
         return acc;

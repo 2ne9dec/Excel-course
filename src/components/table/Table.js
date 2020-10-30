@@ -48,6 +48,7 @@ export class Table extends ExcelComponent {
     onMousedown(event) {
         if (shouldResize(event)) {
             resizeHandler(this.$root, event);
+            // isCell - выбираем только cell в таблице
         } else if (isCell(event)) {
             const $target = $(event.target);
             if (event.shiftKey) {
@@ -73,7 +74,10 @@ export class Table extends ExcelComponent {
         const {key} = event;
         if (keys.includes(key) && !event.shiftKey) {
             event.preventDefault();
+            // В id, по нажатию кнопок, которые есть в массиве,
+            // получаем значение ячейки в виде {row: 5, col: 3}
             const id = this.selection.current.id(true);
+            // Получаем саму ноду нужной ячейки
             const $next = this.$root.find(nextSelector(key, id));
             this.selectCell($next);
         }

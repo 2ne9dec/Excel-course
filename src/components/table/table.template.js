@@ -3,7 +3,8 @@ const CODES = {
         Z: 90,
     };
 
-// Функиця, которая генерирует ячейку
+// Создаем ячейки
+// col на самом деле наш index
 function toCell(row) {
     return function(_, col) {
         return `
@@ -18,7 +19,7 @@ function toCell(row) {
     };
 }
 
-// Функиця, которая создает строки
+// Создаем строки
 function createRow(index, content) {
     const resize = index
     ? '<div class="row-resize" data-resize="row"></div>'
@@ -34,12 +35,12 @@ function createRow(index, content) {
     `;
 }
 
-// Функиця, которая приводит число к букве
+// Приводим число к символу
 function toChar(_, index) {
     return String.fromCharCode(CODES.A + index);
 }
 
-// Функция, которая генерирует колонку, где col = контент колонки (A,B,C...т.д.)
+// Создаем колонки, где col = контент колонок (A,B,C...т.д.)
 function toColumn(col, index) {
     return `
         <div class="column" data-type="resizable" data-col="${index}">
@@ -50,7 +51,9 @@ function toColumn(col, index) {
 }
 
 // Функция, которая создает весь table_axcel
+// Где rowsCount - кол-во строк
 export function createTable(rowsCount) {
+    // Где colsCount - кол-во колонок
     const colsCount = CODES.Z - CODES.A + 1;
     const rows = [];
 

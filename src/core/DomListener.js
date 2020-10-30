@@ -19,7 +19,10 @@ export class DomListener {
                     `Method ${method} is not implemented in ${name} Component`
                 );
             }
+            // Переопределяем, this[method] => потеря контекста из-за bind
+            // Так как this[method] в init отличается от this[method] в remove
             this[method] = this[method].bind(this);
+            // Аналог addEventListener
             this.$root.on(listener, this[method]);
         });
     }

@@ -1,8 +1,11 @@
 import {$} from '@core/dom';
 
 export function resizeHandler($root, event) {
+    // Получаем элемент для ресайза (сам ползунок)
     const $resizer = $(event.target);
+    // Получаем родителя элемента ресайза
     const $parent = $resizer.closest('[data-type="resizable"]');
+    // Получаем координаты
     const coords = $parent.getCoords();
     const type = $resizer.data.resize;
     const sideProp = type === 'col' ? 'bottom' : 'right';
@@ -15,10 +18,12 @@ export function resizeHandler($root, event) {
 
     document.onmousemove = (e) => {
         if (type === 'col') {
+            // Ресайс колонок
             const delta = e.pageX - coords.right;
             value = coords.width + delta;
             $resizer.css({right: -delta + 'px'});
         } else {
+            // Ресайз строк
             const delta = e.pageY - coords.bottom;
             value = coords.height + delta;
             $resizer.css({bottom: -delta + 'px'});

@@ -32,6 +32,7 @@ export class Formula extends ExcelComponent {
             this.$formula.text($cell.text());
         });
 
+        // Связываем table c formula, набираем текст в table = formula
         this.$on('table:input', ($cell) => {
             this.$formula.text($cell.text());
         });
@@ -46,6 +47,8 @@ export class Formula extends ExcelComponent {
         if (keys.includes(event.key)) {
             // Отменяем дефолтное поведение
             event.preventDefault();
+
+            // Эмитем событие позволяющее сместить фокус на таблицу
             this.$emit('formula:done');
         }
     }
