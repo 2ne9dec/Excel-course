@@ -1,10 +1,12 @@
-import {DomListener} from '@core/DomListener';
+import { DomListener } from "@core/DomListener";
 
 export class ExcelComponent extends DomListener {
   constructor($root, options = {}) {
     super($root, options.listeners);
-    this.name = options.name || '';
+    this.name = options.name || "";
     this.emitter = options.emitter;
+    this.subscribe = options.subscribe || [];
+    this.store = options.store;
     this.unsubscribers = [];
 
     this.prepare();
@@ -13,9 +15,9 @@ export class ExcelComponent extends DomListener {
   // Настраивает наш компонент до init
   prepare() {}
 
-// Возвращает шаблон компонента
+  // Возвращает шаблон компонента
   toHTML() {
-    return '';
+    return "";
   }
 
   // Уведомляем слушателей о событии event
@@ -27,6 +29,20 @@ export class ExcelComponent extends DomListener {
   $on(event, fn) {
     const unsub = this.emitter.subscribe(event, fn);
     this.unsubscribers.push(unsub);
+  }
+
+  // Передаем события в store
+  $dispatch(action) {
+    this.store.dispatch(action);
+  }
+
+  // Приходят только изменения по тем полям, на которые мы подписались
+  storeChanged() {}
+
+  // В массиве subscribe находится список строк,
+  // где обозначаем на какие поля нужно подписаться
+  isWatching(key) {
+    return this.subscribe.includes(key);
   }
 
   // Инициализируем компонент
