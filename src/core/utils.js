@@ -56,3 +56,13 @@ export function debounce(fn, wait) {
     timeout = setTimeout(later, wait);
   };
 }
+
+// Этот способ работает только если мы не будем использовать сложные
+// структуры данных, например: new Date, map, set и тд.
+export function clone(obj) {
+  return JSON.parse(JSON.stringify(obj));
+}
+
+export function preventDefault(event) {
+  event.preventDefault();
+}
