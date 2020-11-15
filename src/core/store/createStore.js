@@ -7,7 +7,7 @@ export function createStore(rootReducer, initialState = {}) {
       listeners.push(fn);
       return {
         unsubscribe() {
-          listeners = listeners.filter((listener) => listener !== fn);
+          listeners = listeners.filter((listen) => listen !== fn);
         },
       };
     },
